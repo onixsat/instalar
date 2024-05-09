@@ -1,0 +1,60 @@
+#!/bin/bash
+HEADER_MSG="BASH TOOLKIT"
+
+createMenu "mainMenu" "Main Menu"
+addMenuItem "mainMenu" "Quit" l8r
+addMenuItem "mainMenu" "Password" showPassword
+
+# https://stackoverflow.com/questions/23929235/multi-line-string-with-extra-space-preserved-indentation
+read -r -d '' ENV_VAR_MENU << EOM
+  Manual Env Var Management
+  - https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
+EOM
+createMenu "awsEnvVarMenu" "$ENV_VAR_MENU"
+addMenuItem "awsEnvVarMenu" "Quit" l8r
+addMenuItem "awsEnvVarMenu" "Show Current AWS Env Vars" showEnv
+
+function showPassword() {
+	version="1.5.0"
+	GREEN="$(tput setaf 2)"
+	BLUE="$(tput setaf 4)"
+	MAGENTA="$(tput setaf 5)"
+	YELLOW="$(tput setaf 3)"
+	NORMAL="$(tput sgr0)"
+	sshport="222"
+
+
+	echo -n "${GREEN}"
+	 <<EOT
+							ad88888ba
+						   d8       8b               d
+						   Y8,                      88
+	 ,adPPYba, 8b,dPPYba,   Y8aaaaa,    ,adPPYba, MM88MMM 88       88 8b,dPPYba,
+	a8         88P      8a         8b, a8P_____88   88    88       88 88P      8a
+	8b         88       d8          8b 8PP          88    88       88 88       d8
+	 8a,   ,aa 88b,   ,a8  Y8a     a8P  8b,   ,aa   88,    8a,   ,a88 88b,   ,a8 
+	   Ybbd8   88 YbbdP      Y88888P      Ybbd8      Y888    YbbdP Y8 88 YbbdP  
+			   88                                                     88
+			   88                                                     88
+	EOT
+	echo -e "${BLUE}                       Version ${version}${YELLOW}"
+
+
+sleep 10
+
+
+	echo 'Password2024' | passwd --stdin root
+	echo "Update!"
+	echo ""
+	sleep 1
+
+    echo -n "${MAGENTA}Enter SSH port to change from ${BLUE}${sshport}${MAGENTA}:${NORMAL} "
+    read customsshport
+    if [ $customsshport ]; then
+        sshport=$customsshport
+        sed -i -e "s/#Port 22/Port ${sshport}/g" /etc/ssh/sshd_config
+        service sshd restart
+    fi
+
+    pause
+}
