@@ -12,13 +12,33 @@ addMenuItem "menuAjuda" "Ajuda 2" ajuda2
 
 script(){
 
-
-
 	#Script para detecção de sub-dominios e ips de hosts e e html parsing
 	if [ "$1" == "" ]
 	then
 		echo -e "Sem dados"
 	else
+	
+	if [ ! -d logs ] 
+	then
+		mkdir -p logs
+	fi
+	
+	if [[ ! -e logs/$1.html ]]; then
+		touch logs/$1.html
+	else
+		truncate -s 0 logs/$1.html
+		touch logs/$1.html
+	fi
+	
+	if [[ ! -e logs/$1.txt ]]; then
+		touch logs/$1.txt
+	else
+		truncate -s 0 logs/$1.txt
+		touch logs/$1.txt
+	fi
+
+	
+	
 		echo -e "\033[32;94;5m
 	#############################################################################
 	- >                                 Ajuda                                 < -
@@ -26,20 +46,25 @@ script(){
 		\033[m"
 		echo -e "\033[32;94;2m
 	_____________________________________________________________________________
-	 [+] Trazendo a ajuda: $1                       
+	 [+] Trazendo a ajuda: includes/$1                       
 	-----------------------------------------------------------------------------
 		\033[m"
 		
-			#wget -q $1 -O $1.html
-			cp ajuda/$1.html $1.html
-			grep "href" $1.html | cut -d "/" -f 3 | grep "\." | cut -d '"' -f1 | egrep -v "<l|png|jpg|ico|js|css|mp3|mp4" |sort -u |sed "s/'/ /" > $1.txt
+
+			cp includes/$1.html logs/$1.html
+
+ $(php -f html2text/convert.php includes/$1.html> /dev/null 2>&1 &)
+
+
+			
+			grep "href" logs/$1.html | cut -d "/" -f 3 | grep "\." | cut -d '"' -f1 | egrep -v "<l|png|jpg|ico|js|css|mp3|mp4" | sort -u > logs/$1.txt2
 			sleep 1.00
 			
-		lynx $1.html
+		lynx logs/$1.html
 			echo -e "\033[31;91;2m
 	_____________________________________________________________________________
 	 [+] Concluido...
-	 [+] Registrando O Resultado em $1.txt                       
+	 [+] Registrando O Resultado em logs/$1.txt                       
 	-----------------------------------------------------------------------------
 		\033[m"
 			echo -e "\033[31;94;2m
@@ -47,14 +72,13 @@ script(){
 	 [+] Identificando o ip                                                     
 	-----------------------------------------------------------------------------
 		\033[m"
-#		banner 5
 	fi
 
-	for hst in $(cat $1.txt);
+	for hst in $(cat logs/$1.txt);
 	do
-		host $hst | grep "has address" |sed 's/has address/\tIP:/' | column -t -s ' ';
+		host $hst | grep "has address" |  sed 's/has address/54.38.191.102/' | column -t;
+		# sed 's/has address/\tIP:/' | column -t -s ' ';
 		# sed 's/has address/<< IP >>/' | column -t;
-		echo ""
 	done
 }
 
@@ -72,6 +96,5 @@ function ajuda2() {
 	script $vip
 	pause
 }
-
 
 
