@@ -7,7 +7,7 @@ addMenuItem "mainMenu" "Password" showPassword
 addMenuItem "mainMenu" "Update" showUpdate
 addMenuItem "mainMenu" "Configuracao" loadMenu "menuConfig"
 addMenuItem "mainMenu" "Instalar" loadMenu "menuInstall"
-addMenuItem "mainMenu" "Ajuda" showAjuda
+addMenuItem "mainMenu" "Ajuda" loadMenu "menuAjuda"
 
 source menus/config.sh
 source menus/instalar.sh
@@ -25,6 +25,40 @@ function globais() {
 	readonly BLUE="$(tput setaf 4)"
 	readonly RED="$(tput setaf 1)"
 	readonly NORMAL="$(tput sgr0)"
+	
+	readonly server_name=$(hostname)
+	readonly green='\e[32m'
+	readonly blue='\e[34m'
+	readonly clear='\e[0m'
+	
+	ColorGreen(){
+		echo -ne $green$1$clear
+	}
+	ColorBlue(){
+		echo -ne $blue$1$clear
+	}
+	
+
+
+	if [ ! -d ajuda ] 
+	then
+		mkdir -p ajuda
+	fi
+	
+	if [[ ! -e ajuda/ajuda1.html ]]; then
+		truncate -s 0 ajuda/ajuda1.html
+		touch ajuda/ajuda1.html
+		cat > ajuda/ajuda1.html << "includes/ajuda1.html"
+	fi
+	if [[ ! -e ajuda/ajuda2.html ]]; then
+		truncate -s 0 ajuda/ajuda1.html
+		touch ajuda/ajuda2.html
+		cat > ajuda/ajuda2.html <<- "EOF"
+		ajuda 2
+		EOF
+	fi
+	
+	
 	
 
 }
