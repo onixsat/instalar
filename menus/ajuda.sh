@@ -15,6 +15,7 @@ function globais() {
 	}
 	
 
+
 	if [ ! -d ajuda ] 
 	then
 		mkdir -p ajuda
@@ -23,9 +24,7 @@ function globais() {
 	if [[ ! -e /ajuda/ajuda1.html ]]; then
 		#truncate -s 0 ajuda/ajuda1.html
 		touch /ajuda/ajuda1.html
-		cat > ajuda/ajuda1.html <<- "EOF"
-source includes/ajuda1.html
-		EOF
+		cat > ajuda/ajuda1.html << "includes/ajuda1.html"
 	fi
 	if [[ ! -e /ajuda/ajuda2.html ]]; then
 		#truncate -s 0 ajuda/ajuda1.html
