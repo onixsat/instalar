@@ -53,7 +53,8 @@ script(){
 
 			cp includes/$1.html logs/$1.html
 
-php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
+//php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
+php -f config/convert.php includes/ajuda1.html
 
 
 			
