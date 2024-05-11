@@ -53,13 +53,13 @@ script(){
 
 			cp includes/$1.html logs/$1.html
 
-//php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
+#php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
 php -f config/convert.php includes/ajuda1.html
 
 
 			
-			grep "href" logs/$1.html | cut -d "/" -f 3 | grep "\." | cut -d '"' -f1 | egrep -v "<l|png|jpg|ico|js|css|mp3|mp4" | sort -u > logs/$1.txt2
-			sleep 1.00
+			#grep "href" logs/$1.html | cut -d "/" -f 3 | grep "\." | cut -d '"' -f1 | egrep -v "<l|png|jpg|ico|js|css|mp3|mp4" | sort -u > logs/$1.txt2
+			#sleep 1.00
 			
 		lynx logs/$1.html
 			echo -e "\033[31;91;2m
@@ -68,19 +68,14 @@ php -f config/convert.php includes/ajuda1.html
 	 [+] Registrando O Resultado em logs/$1.txt                       
 	-----------------------------------------------------------------------------
 		\033[m"
-			echo -e "\033[31;94;2m
-	_____________________________________________________________________________
-	 [+] Identificando o ip                                                     
-	-----------------------------------------------------------------------------
-		\033[m"
 	fi
 
-	for hst in $(cat logs/$1.txt);
-	do
-		host $hst | grep "has address" |  sed 's/has address/54.38.191.102/' | column -t;
+#	for hst in $(cat logs/$1.txt);
+#	do
+#		host $hst | grep "has address" |  sed 's/has address/54.38.191.102/' | column -t;
 		# sed 's/has address/\tIP:/' | column -t -s ' ';
 		# sed 's/has address/<< IP >>/' | column -t;
-	done
+#	done
 }
 
 function ajuda1() {

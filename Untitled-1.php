@@ -54,7 +54,7 @@ script(){
 			cp includes/$1.html logs/$1.html
 			#php -f html2text/convert.php logs/$1.txt 
 			#git clone https://github.com/soundasleep/html2text.git
-			#php -f html2text/convert.php logs/ajuda1.txt 
+			#php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
 			
 all(){
 if [[ ! -e mytxt.html ]]; then
@@ -103,12 +103,9 @@ cat > aaa.txt < $(php -f html2text/convert.php logs/$1.html)
 #source test.sh $arguments
 }
 
-
-
-
-
 php -f config/convert.php includes/ajuda1.html> /dev/null 2>&1 &
-php -f html2text/convert.php logs/$1.html
+
+
 			
 			grep "href" logs/$1.html | cut -d "/" -f 3 | grep "\." | cut -d '"' -f1 | egrep -v "<l|png|jpg|ico|js|css|mp3|mp4" | sort -u > logs/$1.txt2
 			sleep 1.00
