@@ -8,10 +8,12 @@ addMenuItem "mainMenu" "Update" showUpdate
 addMenuItem "mainMenu" "Configuracao" loadMenu "menuConfig"
 addMenuItem "mainMenu" "Instalar" loadMenu "menuInstall"
 addMenuItem "mainMenu" "Ajuda" loadMenu "menuAjuda"
+addMenuItem "mainMenu" "Verificar" loadMenu "menuVerificar"
 
 source menus/config.sh
 source menus/instalar.sh
 source menus/ajuda.sh
+source menus/verificar.sh
 
 function globais() {
 

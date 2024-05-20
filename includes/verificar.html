@@ -1,0 +1,590 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>OnixSat Browser</title>
+	<meta charset='utf8'>
+	<style>
+		
+	  html, body{
+	position:relative;
+	font-family: monaco, monospace;
+	color:#c7c7c7;
+	}
+	html{
+	background:#232323;
+	}
+	body{
+	background:#000;
+	/*margin:0px;*/
+	margin:2px 4px;
+	padding:.5em 2em;
+	}
+	body::before{
+	/*content:'<<<';*/
+	background:#ccc;
+	position:absolute;
+	top:0;
+	left:0;
+	color:#000;
+	}
+		
+		
+		
+		
+body {
+  display: grid;
+  /*grid-template-columns: auto 0px; */
+}
+/*
+.top {
+  --offset: 50px; 
+  
+  position: sticky;
+  bottom: 20px;      
+  margin-right:10px; 
+  place-self: end;
+  /* margin-top: calc(100vh + var(--offset));
+  text-decoration: none;
+  /* padding: 10px;
+  padding: 0px;
+  font-family: sans-serif;
+  color: #fff;
+  background: #000;
+  border-radius: 100px;
+  white-space: nowrap;
+}	
+		*/
+body {
+	scroll-behavior: smooth;
+}
+		
+		
+		
+		
+	h1{
+	text-align:center;
+	margin:1em 0;
+	}
+	h1 span{
+	/*background:blue;*/
+	color:#8C7612;
+	font-weight:normal;
+	font-size:1rem;
+	position:relative;
+	text-align:center;
+	}
+	h1, h2, h3, h4, h5, h6{
+	font-weight:normal;
+	font-size:1rem;
+	margin:1rem 0;
+	}
+	h3{
+	margin-left:1em;
+	}
+	strong{
+	color:#FF6E67;
+	}
+	em, blockquote{
+	color:#6971FF;
+	font-style:normal;
+	}
+	ul, ol, title{
+	color:#CA30C7;
+	}
+	ul{
+	list-style-type:none;
+	}
+	ul li:before{
+	content:'* '
+	}
+	ul ul {
+	padding-left: 4.25em;
+	}
+	p{
+	margin:1em 2em;
+	}
+	a{
+	color:#00C300;
+	text-decoration:none;
+	}
+	a:hover, a:focus{
+	color:#8C7612;
+	}
+	ol{
+	margin-left:1.5em;
+	}
+	blockquote{
+	margin-left:1em;
+	}
+	code, pre{
+	font:inherit;
+	color: #00A5A7;
+	}
+	hr{
+	/*	margin: 10px 0px 5px 0px;*/
+	border:none;
+	background-image: linear-gradient(to right, #8C7612 95%, rgba(255, 255, 255, 0) 5%);
+	background-position: top;
+	height:1px;
+	background-size: 8px 1px;
+	background-repeat: repeat-x;
+	}
+	title{
+	display:block;
+	text-align:right;
+	}
+	th{
+	color: #C7C500;
+	}</style>
+	<script>addEventListener('load', function(){
+	Array.prototype.forEach.call(document.querySelectorAll('h1'), function(h1){
+	h1.innerHTML = '<span>' + h1.innerHTML + '</span>'
+	})
+	var title = document.createElement('title')
+	title.innerHTML = document.title
+	document.body.insertBefore(title, document.body.firstChild)
+	})</script>
+	<style>
+		 #sub-nav  > .active {color: darkcyan;}
+		.tabs li a.active { color: darkcyan; }
+		/*.tabs li a {font-size:20px;}*/
+		#sub-nav li a {margin-left:0px;}
+	</style>
+	<style type='text/css'>
+pre {
+  width: 80%;
+  max-height: 490px;
+  color: #fff;
+  padding: 0px 0px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  word-wrap: normal;
+  overflow: auto;
+	  font-family: courier, monospace;
+  white-space: pre;
+}
+	pre span {color: #868686;font-size: 14px}
+	pre div {margin-bottom: -15px;font-size: 15px}
+		
+
+</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<hr>
+	<h1 style="
+    max-height: 20px;
+">OnixSat - Browser</h1>
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.js"></script>
+	<script>
+	$(document).ready(function() {
+		$('.nav-tabs > li > a').click(function(event){
+		event.preventDefault();//stop browser to take action for clicked anchor
+					
+		//get displaying tab content jQuery selector
+		var active_tab_selector = $('.nav-tabs > li.active > a').attr('href');					
+					
+		//find actived navigation and remove 'active' css
+		var actived_nav = $('.nav-tabs > li.active');
+		actived_nav.removeClass('active');
+					
+		//add 'active' css into clicked navigation
+		$(this).parents('li').addClass('active');
+					
+		//hide displaying tab content
+		$(active_tab_selector).removeClass('active');
+		$(active_tab_selector).addClass('hide');
+					
+		//show target tab content
+		var target_tab_selector = $(this).attr('href');
+		$(target_tab_selector).removeClass('hide');
+		$(target_tab_selector).addClass('active');
+	     });
+	  });
+	</script>
+    <style>
+		
+        /** Start: to style navigation tab **/
+        /*.nav {
+          margin-bottom: 18px;
+          margin-left: 0;
+          list-style: none;
+        }
+
+        .nav > li > a {
+          display: block;
+        }
+
+        .nav-tabs{
+          *zoom: 1;
+        }
+
+        .nav-tabs:before,
+        .nav-tabs:after {
+          display: table;
+          content: "";
+        }
+
+        .nav-tabs:after {
+          clear: both;
+        }
+
+        .nav-tabs > li {
+          float: left;
+        }
+
+        .nav-tabs > li > a {
+          padding-right: 12px;
+          padding-left: 12px;
+          margin-right: 2px;
+          line-height: 14px;
+        }
+
+        .nav-tabs {
+          border-bottom: 1px solid #ddd;
+        }
+
+        .nav-tabs > li {
+          margin-bottom: -1px;
+        }
+
+        .nav-tabs > li > a {
+          padding-top: 8px;
+          padding-bottom: 8px;
+          line-height: 18px;
+          border: 1px solid transparent;
+          -webkit-border-radius: 4px 4px 0 0;
+             -moz-border-radius: 4px 4px 0 0;
+                  border-radius: 4px 4px 0 0;
+        }
+
+        .nav-tabs > li > a:hover {
+          border-color: #eeeeee #eeeeee #dddddd;
+        }
+
+        .nav-tabs > .active > a,
+        .nav-tabs > .active > a:hover {
+          color: #555555;
+          cursor: default;
+          background-color: #ffffff;
+          border: 1px solid #ddd;
+          border-bottom-color: transparent;
+        }
+
+        li {
+          line-height: 18px;
+        }
+*/
+        .tab-content.active{
+            display: block;
+        }
+
+        .tab-content.hide{
+            display: none;
+        }
+
+
+        /** End: to style navigation tab **/
+		
+		
+#btn-back-to-top {
+position: fixed;
+bottom: 20px;
+right: 20px;
+display: none;
+  border-radius: 100%;
+  background: #141c38;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  opacity: 100%;
+  transition: opacity 0.5s;
+}
+
+.back-to-top:hover {
+  opacity: 60%;
+}
+
+.hidden {
+  opacity: 0%;
+}
+
+.back-to-top-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #7ac9f9;
+}
+		
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
+    </style>
+
+
+	
+	<nav>
+	<ul class="tabs nav nav-tabs">
+		<li class="active"><a href="#home">Home</a></li>
+		<li class="accordion">
+			<a href="#servidor">Servidor</a>
+			<ul id="sub-nav">
+				<li><a href="#hostname">Hostname</a></li>
+				<li><a href="#hosts">hosts</a></li>
+			</ul>                                   
+		</li>
+		
+		<li class="accordion">
+			<a href="#email">Email</a>
+			<ul id="sub-nav">
+				<li><a href="#mailips">Mailips</a></li>
+				<li><a href="#mailhelo">Mailhelo</a></li>
+			</ul>                                   
+		</li>
+                        
+
+		<li><a href="#outros">Outros</a></li>
+		<li class="last-item"><a href="#sobre">Sobre</a></li>
+
+	</ul>
+	</nav>
+<script>
+		if(window.location.hash) { // Check if url hash is not empty
+		var hash = window.location.hash; // nav-y1
+		document.querySelector('[href="'+hash+'"]').click();
+	}
+
+	   path = window.location.href;
+    $('ul li > a').each(function (e) {
+        if (this.href === path) {
+            $(this).addClass('active').parents('li').addClass('active').children('a').addClass('active');
+        } else {
+            //$(this).removeClass('active');
+			
+			//e.preventDefault();
+			
+			
+			
+			
+        }
+		
+    });
+(function(){
+			
+	
+			$('.tabs #sub-nav li').bind('click', function(){
+		// e.preventDefault();
+		var subNavList   = $(this),
+			list = $('.tabs').find('li').add('.tabs a');
+			//list.removeClass('active');  
+		subNavList.addClass('active').parents('li').addClass('active').children('a').addClass('active');
+	});
+	
+	
+
+	
+
+	
+	
+}());
+
+
+$(document).ready(function() {
+	$("ul li > a").on("click", function() {
+	  $("ul").find(".active").removeClass("active");
+	  $(this).addClass('active').parents('li').addClass('active').children('a').addClass('active');
+	  //$("ul").find("ul").css("display", "none"); /* close submenu */
+	 // $(this).next("ul").css("display", "block"); /*display submenu */
+	});
+});
+	
+	
+</script>
+	
+
+	
+	
+    <p>This is the demo page for the <strong>Lynx.css</strong> <em>text</em> demonstration site.</p>
+	
+  <h2 id='home'>Installation Instructions</h2>
+	
+<section id="servidor" class="tab-content hide">
+		<h1><b>Servidor</b></h1>
+		<div id="hostname">
+			<p>hostname</p>
+		</div>
+		<div id="hosts">
+			<p>nano /etc/hosts</p>
+			<pre>
+				<div># Verificar se o ficheiro está correto.</div>
+				<span>
+		51.75.90.235 51-75-90-235.cprapid.com 51-75-90-235
+
+		94.23.75.50 	mail.smartiptv.pt mail
+		127.0.0.1 		localhost srv
+		127.0.0.1		localhost srv.smartiptv.pt srv
+
+		54.38.191.102           srv.smartiptv.pt srv</span>
+			</pre>
+		</div>
+</section>
+<section id="email" class="tab-content hide">
+		<h1><b>Mail</b></h1>
+		<div id="mailips">
+			<p>nano /etc/mailips</p>
+			<pre>
+				<div># Verificar se o ficheiro está correto.</div>
+				<span>smartiptv.pt: 94.23.75.50
+				mail.smartiptv.pt: 94.23.75.50
+				srv.smartiptv.pt: 94.23.75.50
+				*: 54.38.191.102</span>
+			</pre>
+		</div>
+		
+		<div id="mailhelo">
+			<p>nano /etc/mailhelo</p>
+			<pre>
+				<div># Verificar se o ficheiro está correto.</div>
+				<span>smartiptv.pt: mail.smartiptv.pt
+		mail.smartiptv.pt: mail.smartiptv.pt
+		srv.smartiptv.pt: mail.smartiptv.pt
+		*: srv.smartiptv.pt</span>
+			</pre>
+		</div>
+</section>
+<section id="outros" class="tab-content hide">
+		<h1><b>Outros</b></h1>
+		
+		  <h2>Mail</h2>
+			   <p>Descrição</p>
+			<h1>Ver o titulo</h1>
+			<hr>
+			<h2>https://srv.smartiptv.pt:2087/cpsess4411736012/scripts/srvmng</h2>
+			<p style='font-size: 5px;max-width: 5px'>
+		https://srv.smartiptv.pt:2087/cpsess4411736012/scripts/dosrvmng?tailwatchd=1&tailwatchdmonitor=-1&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AAPNSPush&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AChkServd&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AEximstats&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AMailHealth&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AModSecLog&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3ARecentAuthedMailIpTracker&tailwatchd-subopt=Cpanel%3A%3ATailWatch%3A%3AcPBandwd&cpanel_php_fpm=1&cpanel_php_fpmmonitor=1&cpdavd=1&cpdavdmonitor=1&cphulkd=1&cphulkdmonitor=1&crondmonitor=1&dnsadminmonitor=1&exim=1&eximmonitor=1&exim-altportnum=26&httpd=1&httpdmonitor=1&imap=1&imapmonitor=1&ipaliases=1&ipaliasesmonitor=1&lmtpmonitor=1&mailman=1&mailmanmonitor=1&mysql=1&mysqlmonitor=1&named=1&namedmonitor=1&nscd=1&nscdmonitor=1&p0f=1&p0fmonitor=1&pop=1&popmonitor=1&spamd=1&spamdmonitor=1&sshd=1&sshdmonitor=1&rsyslogd=1&rsyslogdmonitor=1</p>
+			<p>An <em>emphasized couple</em> of words.</p>
+			<p>An <em>emphasized phrase with a <strong>strong</strong> word</em>.</p>
+			<p>A <strong>strong phrase with an <em>emphasized</em> word</strong>.</p>
+			<hr>
+			<h1>Ver o titulo</h1>
+			<ol>
+			  <li><a href='https://jesse.sh/'>https://srv.smartiptv.pt:2087/cpsess4411736012/scripts2/basic_exim_editor#tab_DomainsandIPs</a></li>
+			</ol>
+			<hr>
+			<h2>Code</h2>
+			<pre><code>
+		<div id='tab_DomainsandIPs'>
+
+
+		<table align='' width='10%' class='datatable brick' id='group_DomainsandIPs' border='0' cellpadding='5' cellspacing='0'>
+		<thead>
+		<tr><th align='left' colspan='100'>Domains and IPs</th></tr>
+		</thead>
+		<tbody>
+
+		<!-- |Domains and IPs| |per_domain_mailips| -->
+		<input type='hidden' name='___original_per_domain_mailips' value='0'><tr id='per_domain_mailips_container' class='tdshade1_noborder'>
+		<td class='label_and_help' id='labelhelp-per_domain_mailips'><div id='label-per_domain_mailips'>Send mail from the account’s IP address&nbsp;<a href='javascript:void(0)' onclick='showhelp(&quot;per_domain_mailips&quot;); return false;'>[?]</a></div><div><div class='help' id='help-per_domain_mailips' style='display:none;'>Automatically send outgoing mail from the account’s IPv4 address rather than the servers’ default IP address.</div></div></td>
+		<td class='controls' valign='middle'><div class='brickcontainer'><ul class='tweak_settings binary'><li><label><input type='radio' id='per_domain_mailips_1' name='per_domain_mailips' value='1' onclick='checktweaks();'>&nbsp;On</label></li><li><label><input type='radio' id='per_domain_mailips_0' name='per_domain_mailips' value='0' checked='checked' onclick='checktweaks();'>&nbsp;Off<br><span class='default'>default</span></label></li></ul></div></td></tr>
+
+		<!-- |Domains and IPs| |use_rdns_for_helo| -->
+		<input type='hidden' name='___original_use_rdns_for_helo' value='0'><tr id='use_rdns_for_helo_container' class='tdshade2_noborder'>
+		<td class='label_and_help' id='labelhelp-use_rdns_for_helo'><div id='label-use_rdns_for_helo'>Use the reverse DNS entry for the mail HELO/EHLO if available&nbsp;<a href='javascript:void(0)' onclick='showhelp(&quot;use_rdns_for_helo&quot;); return false;'>[?]</a></div><div><div class='help' id='help-use_rdns_for_helo' style='display:none;'>The system will use the reverse DNS name for each IP address as the HELO for all outgoing SMTP connections. This only applies during the HELO/EHLO commands.</div></div></td>
+		<td class='controls' valign='middle'><div class='brickcontainer'><ul class='tweak_settings binary'><li><label><input type='radio' id='use_rdns_for_helo_1' name='use_rdns_for_helo' value='1' onclick='checktweaks();'>&nbsp;On<br><span class='default'>default</span></label></li><li><label><input type='radio' id='use_rdns_for_helo_0' name='use_rdns_for_helo' value='0' checked='checked' onclick='checktweaks();'>&nbsp;Off</label></li></ul></div></td></tr>
+
+		<!-- |Domains and IPs| |rebuild_rdns_cache| -->
+
+		<!-- |Domains and IPs| |custom_mailhelo| -->
+		<input type='hidden' name='___original_custom_mailhelo' value='1'><tr id='custom_mailhelo_container' class='tdshade1_noborder'>
+		<td class='label_and_help' id='labelhelp-custom_mailhelo'><div id='label-custom_mailhelo'>Reference /etc/mailhelo for custom outgoing SMTP HELO&nbsp;<a href='javascript:void(0)' onclick='showhelp(&quot;custom_mailhelo&quot;); return false;'>[?]</a></div><div><div class='help' id='help-custom_mailhelo' style='display:none;'>Send HELO based on the domain name in /etc/mailhelo (<a href='https://go.cpanel.net/eximdiffip' target='_blank'>more information</a>)</div></div></td>
+		<td class='controls' valign='middle'><div class='brickcontainer'><ul class='tweak_settings binary'><li><label><input type='radio' id='custom_mailhelo_1' name='custom_mailhelo' value='1' checked='checked' onclick='checktweaks();'>&nbsp;On</label></li><li><label><input type='radio' id='custom_mailhelo_0' name='custom_mailhelo' value='0' onclick='checktweaks();'>&nbsp;Off<br><span class='default'>default</span></label></li></ul></div></td></tr>
+
+		<!-- |Domains and IPs| |custom_mailips| -->
+		<input type='hidden' name='___original_custom_mailips' value='1'><tr id='custom_mailips_container' class='tdshade2_noborder'>
+		<td class='label_and_help' id='labelhelp-custom_mailips'><div id='label-custom_mailips'>Reference /etc/mailips for custom IP on outgoing SMTP connections&nbsp;<a href='javascript:void(0)' onclick='showhelp(&quot;custom_mailips&quot;); return false;'>[?]</a></div><div><div class='help' id='help-custom_mailips' style='display:none;'>Send outgoing mail from the IP address that matches the domain name in /etc/mailips (<a href='https://go.cpanel.net/eximdiffip' target='_blank'>more information</a>)</div></div></td>
+		<td class='controls' valign='middle'><div class='brickcontainer'><ul class='tweak_settings binary'><li><label><input type='radio' id='custom_mailips_1' name='custom_mailips' value='1' checked='checked' onclick='checktweaks();'>&nbsp;On</label></li><li><label><input type='radio' id='custom_mailips_0' name='custom_mailips' value='0' onclick='checktweaks();'>&nbsp;Off<br><span class='default'>default</span></label></li></ul></div></td></tr>
+		</tbody>
+		</table>
+		</div>
+			</code></pre>
+		
+		
+		
+</section>
+<section id="sobre" class="tab-content hide">
+		<h1><b>Sobre</b></h1>
+</section>
+
+
+<style>
+.footer {
+    width: 100%;
+    height: 12%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    background-size: 100% 100%;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.footer p {
+color: white;
+    font-size: 0.7em;
+    font-family: inherit;
+}
+</style>
+<hr style="margin: 10px 245px 10px 245px;
+    border: none;
+    background-image: linear-gradient(to right, #494015 95%, rgba(255, 255, 255, 0) 5%);
+    background-position: top;
+    height: 1px;
+    background-size: 8px 1px;
+    background-repeat: repeat-x;" />
+<div class="footer">
+	
+  <p>Este sistema foi desenvolvido por <code>OnixSat 2024</code>.</p>
+ </div>
+	
+	<!-- Back to top button -->
+<button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
+  <i class="fas fa-arrow-up"></i>
+	
+	<svg xmlns="http://www.w3.org/2000/svg" class="back-to-top-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+  </svg>
+	
+	
+</button>
+<script>
+//Get the button
+let mybutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+scrollFunction();
+};
+
+function scrollFunction() {
+if (
+document.body.scrollTop > 20 ||
+document.documentElement.scrollTop > 20
+) {
+mybutton.style.display = "block";
+} else {
+mybutton.style.display = "none";
+}
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+document.body.scrollTop = 0;
+document.documentElement.scrollTop = 0;
+}
+</script>
+</body>
+</html>

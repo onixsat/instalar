@@ -24,14 +24,13 @@ printMenuStrs "menuConfig"
 addMenuItem "subMenu" "Print date" 'date'
 addMenuItem "subMenu" "Go back" loadMenu "menuConfig"
 	
-function reload(){
+reload(){
 data1=$1 data2=$2 
 	echo -n "Press Enter to $data1"
 	read response
     loadMenu "$data2"
 }
-
-function linearSearch (){
+linearSearch (){
 filename="${1}" # $1 represent first argument
 
 
@@ -46,6 +45,54 @@ else
 fi
     return 1
 }
+getTime(){
+
+	time=$(date +"%T")
+	echo "La hora es: $time"
+	reload "return" "menuConfig2"
+	pause
+
+}
+getCurrentPath(){
+	path=$(pwd)
+	echo "Tu estas en: $path"
+	reload "return" "menuConfig2"
+	pause
+}
+generalsCommands(){
+
+read -r -d '' ENV_CONFIG << EOM
+  Main Menu
+  - Configuracao Info
+EOM
+
+createMenu "menuConfig2" "$ENV_CONFIG"
+printMenuStrs "menuConfig2"
+addMenuItem "menuConfig2" "getTime" getTime
+addMenuItem "menuConfig2" "getCurrentPath" getCurrentPath
+addMenuItem "menuConfig2" "Go back" 'loadMenu "menuConfig"'
+
+    loadMenu "menuConfig2"
+	pause
+}
+mailMenu(){
+
+read -r -d '' ENV_CONFIG << EOM
+  Main Menu
+  - Configuracao Mail
+EOM
+
+createMenu "menuConfig3" "$ENV_CONFIG"
+printMenuStrs "menuConfig3"
+addMenuItem "menuConfig3" "showMailip" showMailip
+addMenuItem "menuConfig3" "showMailhelo" showMailhelo
+addMenuItem "menuConfig3" "Update IP" showMailUpdate
+addMenuItem "menuConfig3" "Go back" 'loadMenu "menuConfig"'
+
+    loadMenu "menuConfig3"
+
+}
+
 function outer() {
 
 	Pre() {
@@ -148,58 +195,6 @@ srv="srv.smartiptv.pt"
 	  pause
 }
 
-getTime(){
-
-	time=$(date +"%T")
-	echo "La hora es: $time"
-	reload "return" "menuConfig2"
-	pause
-
-}
-
-getCurrentPath(){
-	path=$(pwd)
-	echo "Tu estas en: $path"
-	reload "return" "menuConfig2"
-	pause
-}
-
-generalsCommands(){
-
-read -r -d '' ENV_CONFIG << EOM
-  Main Menu
-  - Configuracao Info
-EOM
-
-createMenu "menuConfig2" "$ENV_CONFIG"
-printMenuStrs "menuConfig2"
-addMenuItem "menuConfig2" "getTime" getTime
-addMenuItem "menuConfig2" "getCurrentPath" getCurrentPath
-addMenuItem "menuConfig2" "Go back" 'loadMenu "menuConfig"'
-
-    loadMenu "menuConfig2"
-	pause
-}
-
-
-
-mailMenu(){
-
-read -r -d '' ENV_CONFIG << EOM
-  Main Menu
-  - Configuracao Mail
-EOM
-
-createMenu "menuConfig3" "$ENV_CONFIG"
-printMenuStrs "menuConfig3"
-addMenuItem "menuConfig3" "showMailip" showMailip
-addMenuItem "menuConfig3" "showMailhelo" showMailhelo
-addMenuItem "menuConfig3" "Update IP" showMailUpdate
-addMenuItem "menuConfig3" "Go back" 'loadMenu "menuConfig"'
-
-    loadMenu "menuConfig3"
-
-}
 function showMailip() {
         echo "Mailip!"
 
@@ -256,20 +251,7 @@ function showMailhelo() {
         pause
 }
 
-
-
-
-
-func1(){
-ret_val="f1"
-}
-
-func2(){
-ret_val="f2"
-#pause
-}
-
-showMailUpdate(){
+function showMailUpdate(){
     local ret_val=nothing
     echo $ret_val
     func1
@@ -287,3 +269,12 @@ sed -i -e "s/$x/$y/g" /etc/mailips
 pause
 }
 
+
+
+func1(){
+ret_val="f1"
+}
+func2(){
+ret_val="f2"
+#pause
+}

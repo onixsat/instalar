@@ -25,30 +25,27 @@ banner
 
 script(){
 
-	if [ "$3" ]; then
-		texto="${BLUE}
-	 [+] ${WHITE}$3"
-	else
-	 	texto=" "
-	fi
-	
-	
 	echo -e "\033[32;94;2m
 	_____________________________________________________________________________
-	 [+] $1 ${RED}$2 ${texto} \033[32;94;2m                                             
+	 [+] Trazendo a ajuda: includes/$1                       
 	-----------------------------------------------------------------------------
 		\033[m"
 		
+	#echo "$(<$FILE )"
+	#echo "$(pad "$(<$FILE )" 30)"
 	while read p; do
 		echo "         $p"
-	done <$2
-	
-	echo -e "\033[31;94;2m
+	done <$1
+
+	echo -e "\033[31;91;2m
 	_____________________________________________________________________________
+	 [+] Concluido...
+	 [+] Registrando O Resultado em logs/$1.txt                       
+	-----------------------------------------------------------------------------
 		\033[m"
 
 }
-script "Verificar o documento" "/etc/mailips" "texto"
+script "/etc/mailips"
 
 all(){
 	center_text2(){
